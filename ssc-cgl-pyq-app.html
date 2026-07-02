@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>SSC CGL — PYQ Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A4A;
+    --navy-deep:#101B34;
+    --maroon:#9A2B25;
+    --maroon-deep:#7A211D;
+    --paper:#EEF0F4;
+    --paper-line:#D7DCE6;
+    --ink:#1E2333;
+    --ink-soft:#5B6478;
+    --gold:#B08B32;
+    --green:#2F7A4F;
+    --red:#B23A2E;
+    --card:#FFFFFF;
+    --radius:4px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0; background:var(--paper); color:var(--ink); font-family:'IBM Plex Sans',sans-serif;}
+  body{
+    min-height:100vh;
+    background-image:
+      linear-gradient(var(--paper-line) 1px, transparent 1px);
+    background-size: 100% 42px;
+    background-attachment:local;
+  }
+  .app{max-width:520px; margin:0 auto; min-height:100vh; background:transparent; position:relative;}
+
+  ::selection{ background: var(--gold); color:#fff; }
+  button{ font-family:inherit; cursor:pointer; }
+  h1,h2,h3{ font-family:'Fraunces',serif; margin:0; }
+
+  /* ---------- HEADER / LETTERHEAD ---------- */
+  .letterhead{
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:#EFE9DC;
+    padding:22px 22px 26px;
+    border-bottom: 6px solid var(--gold);
+    position:relative;
+    overflow:hidden;
+  }
+  .letterhead::after{
+    content:"";
+    position:absolute; right:-40px; top:-40px;
+    width:160px; height:160px; border-radius:50%;
+    border:2px dashed rgba(239,233,220,0.15);
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
+    color:#C9B98A; margin-bottom:8px;
+  }
+  .letterhead h1{ font-size:26px; font-weight:700; line-height:1.15; color:#FFFFFF; }
+  .letterhead .sub{ font-size:13px; color:#B9C2D6; margin-top:6px; font-family:'IBM Plex Mono',monospace; }
+  .stat-strip{
+    display:flex; gap:14px; margin-top:16px; flex-wrap:wrap;
+  }
+  .stat-strip span{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px; color:#EFE9DC;
+    border:1px solid rgba(239,233,220,0.3);
+    padding:4px 9px; border-radius:2px;
+  }
+
+  .disclaimer{
+    font-size:11px; color:var(--ink-soft); text-align:center;
+    padding:8px 20px; font-style:italic;
+  }
+
+  /* ---------- HOME: SECTION LEDGER ---------- */
+  .section-title{
+    font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--ink-soft); font-family:'IBM Plex Mono',monospace;
+    margin:22px 20px 10px; display:flex; align-items:center; gap:10px;
+  }
+  .section-title::after{ content:""; flex:1; height:1px; background:var(--paper-line); }
+
+  .ledger{ margin:0 16px 24px; }
+  .ledger-row{
+    display:flex; align-items:center; gap:14px;
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-left:4px solid var(--navy);
+    padding:16px 14px;
+    margin-bottom:10px;
+    border-radius:var(--radius);
+    text-align:left;
+    width:100%;
+    transition: transform .12s ease, box-shadow .12s ease;
+    box-shadow: 0 1px 0 rgba(16,27,52,0.04);
+  }
+  .ledger-row:active{ transform: translateY(1px) scale(.995); }
+  .ledger-row .sl{
+    font-family:'IBM Plex Mono',monospace; color:var(--maroon);
+    font-weight:600; font-size:14px; width:26px; flex-shrink:0;
+  }
+  .ledger-row .info{ flex:1; min-width:0; }
+  .ledger-row .info .name{ font-size:15.5px; font-weight:600; color:var(--ink); }
+  .ledger-row .info .meta{ font-size:12px; color:var(--ink-soft); margin-top:3px; font-family:'IBM Plex Mono',monospace; }
+  .ledger-row .arrow{ font-size:20px; color:var(--gold); flex-shrink:0; }
+
+  /* ---------- QUIZ SCREEN ---------- */
+  .quiz-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    background:var(--navy); color:#fff; padding:14px 18px;
+  }
+  .quiz-topbar .back{ background:none; border:none; color:#EFE9DC; font-size:20px; padding:4px; }
+  .quiz-topbar .qtitle{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; letter-spacing:1px; }
+
+  .progress-track{ height:4px; background:var(--paper-line); }
+  .progress-fill{ height:100%; background:var(--gold); transition:width .3s ease; }
+
+  .meta-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:14px 20px 0; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--ink-soft);
+  }
+  .meta-row .year-tag{ color:var(--maroon); font-weight:600; }
+
+  .qbox{
+    margin:14px 18px 0;
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:var(--radius);
+    padding:18px 18px 20px;
+    position:relative;
+  }
+  .qnum-badge{
+    position:absolute; top:-12px; left:14px;
+    background:var(--maroon); color:#fff;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+    padding:3px 10px; border-radius:2px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.15);
+  }
+  .qtext{ font-size:16px; line-height:1.55; margin-top:10px; color:var(--ink); white-space:pre-line; }
+
+  .options{ margin:16px 18px 0; display:flex; flex-direction:column; gap:10px; }
+  .option{
+    display:flex; align-items:center; gap:12px;
+    background:var(--card);
+    border:1px solid var(--paper-line);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    text-align:left;
+    width:100%;
+  }
+  .bubble{
+    width:28px; height:28px; border-radius:50%;
+    border:2px solid var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:12.5px;
+    color:var(--ink-soft); flex-shrink:0;
+    position:relative; overflow:hidden;
+  }
+  .bubble .fill{
+    position:absolute; inset:0; border-radius:50%;
+    background:var(--ink); transform:scale(0); transition:transform .22s cubic-bezier(.34,1.56,.64,1);
+  }
+  .bubble span{ position:relative; z-index:1; }
+  .option.selected .bubble{ border-color:var(--ink); color:#fff; }
+  .option.selected .bubble .fill{ transform:scale(1); }
+  .option .opt-text{ font-size:14.5px; color:var(--ink); flex:1; }
+
+  .option.correct{ border-color:var(--green); background:#F1F8F3; }
+  .option.correct .bubble{ border-color:var(--green); }
+  .option.correct .bubble .fill{ background:var(--green); transform:scale(1); }
+  .option.wrong{ border-color:var(--red); background:#FCF1EF; }
+  .option.wrong .bubble{ border-color:var(--red); }
+  .option.wrong .bubble .fill{ background:var(--red); transform:scale(1); }
+  .option .mark{ font-size:15px; margin-left:4px; }
+
+  .explain{
+    margin:14px 18px 0;
+    background:#F6F3E9;
+    border-left:3px solid var(--gold);
+    padding:12px 14px;
+    border-radius:2px;
+    display:none;
+  }
+  .explain.show{ display:block; animation: fadeIn .25s ease; }
+  .explain .label{
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:1.5px;
+    text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:5px;
+  }
+  .explain p{ margin:0; font-size:13.5px; line-height:1.55; color:var(--ink); }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:translateY(0);} }
+
+  .cta-bar{ padding:20px 18px 30px; }
+  .btn-primary{
+    width:100%; padding:15px; background:var(--navy); color:#fff;
+    border:none; border-radius:var(--radius); font-size:15px; font-weight:600;
+    letter-spacing:.3px; opacity:1;
+  }
+  .btn-primary:disabled{ opacity:.35; }
+  .btn-outline{
+    width:100%; padding:15px; background:transparent; color:var(--navy);
+    border:1.5px solid var(--navy); border-radius:var(--radius); font-size:15px; font-weight:600; margin-top:10px;
+  }
+
+  /* ---------- RESULT ---------- */
+  .result-wrap{ padding:40px 24px; text-align:center; }
+  .stamp{
+    width:168px; height:168px; margin:0 auto 22px;
+    border:3px solid var(--maroon); border-radius:50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:var(--maroon); position:relative;
+    transform:rotate(-8deg) scale(0.7); opacity:0;
+    animation: stampIn .5s cubic-bezier(.2,1.4,.4,1) .15s forwards;
+  }
+  .stamp::before{
+    content:""; position:absolute; inset:8px; border:1px dashed var(--maroon); border-radius:50%;
+  }
+  @keyframes stampIn{ to{ transform:rotate(-8deg) scale(1); opacity:1; } }
+  .stamp .pct{ font-family:'Fraunces',serif; font-size:38px; font-weight:700; }
+  .stamp .lbl{ font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:2px; margin-top:2px; }
+
+  .result-wrap h2{ font-size:20px; color:var(--ink); }
+  .result-wrap .score-line{ font-size:14px; color:var(--ink-soft); margin-top:8px; }
+  .remark{
+    display:inline-block; margin-top:14px; padding:6px 16px;
+    font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600;
+    border-radius:2px; letter-spacing:.5px;
+  }
+  .remark.pass{ background:#EAF5EE; color:var(--green); }
+  .remark.avg{ background:#FBF3E4; color:var(--gold); }
+  .remark.fail{ background:#FCEEEC; color:var(--red); }
+
+  .result-actions{ margin-top:32px; }
+
+  .footer-note{ text-align:center; padding:10px 20px 26px; font-size:11px; color:var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+
+<script>
+const QUESTIONS = {
+  QUANT: {name:"Quantitative Aptitude", emoji:"🧮", items:[
+    {y:"SSC CGL 2023 Tier-I", q:"If the price of an article is increased by 25%, by what percentage must the new price be decreased to restore the original price?", o:["20%","25%","16.67%","22.5%"], a:0, e:"New price = 1.25x. To return to x: decrease% = (0.25x / 1.25x) × 100 = 20%."},
+    {y:"SSC CGL 2022 Tier-I", q:"A sum of money becomes ₹9,680 in 2 years and ₹11,664 in 3 years at compound interest. Find the rate of interest per annum.", o:["18%","20%","22%","24%"], a:1, e:"Rate ≈ [(11664−9680)/9680] × 100 ≈ 20%, the interest earned in the 3rd year on the 2nd-year amount."},
+    {y:"SSC CGL 2019 Tier-I", q:"A train 150 m long crosses a platform 250 m long in 20 seconds. What is the speed of the train in km/hr?", o:["54 km/hr","60 km/hr","72 km/hr","80 km/hr"], a:2, e:"Total distance = 400 m in 20 s ⇒ speed = 20 m/s = 20 × 18/5 = 72 km/hr."},
+    {y:"SSC CGL 2021 Tier-I", q:"The average of 11 numbers is 42. The average of the first 6 numbers is 40 and that of the last 6 numbers is 45. Find the 6th number.", o:["40","44","48","52"], a:2, e:"Sum(11)=462, Sum(first 6)=240, Sum(last 6)=270. 6th number = 240+270−462 = 48."},
+    {y:"SSC CGL 2020 Tier-I", q:"Two numbers are in the ratio 3:5. If 9 is subtracted from each, the new ratio becomes 12:23. Find the smaller number.", o:["33","36","39","42"], a:0, e:"Let numbers be 3x, 5x. (3x−9)/(5x−9)=12/23 ⇒ 9x=99 ⇒ x=11. Smaller number = 3x = 33."},
+    {y:"SSC CGL 2018 Tier-I", q:"A can complete a work in 12 days and B in 18 days. They work together for 4 days, after which A leaves. In how many more days will B finish the remaining work?", o:["6 days","7 days","8 days","9 days"], a:2, e:"Combined rate = 1/12+1/18 = 5/36. In 4 days, 20/36 done. Remaining 16/36 = 4/9. B alone: (4/9)×18 = 8 days."},
+    {y:"SSC CGL 2022 Tier-I", q:"If sec θ + tan θ = 3, find the value of sin θ.", o:["2/3","3/5","4/5","1/2"], a:2, e:"sec θ − tan θ = 1/3 (product=1). Adding: 2 sec θ=10/3 ⇒ sec θ=5/3, tan θ=4/3 ⇒ sin θ=4/5."},
+    {y:"SSC CGL 2019 Tier-I", q:"The area of a circle equals the area of a square. What is the ratio of the diameter of the circle to the side of the square?", o:["√π : 1","2 : √π","2√π : 1","1 : √π"], a:1, e:"πr²=a² ⇒ r=a/√π ⇒ diameter=2a/√π. Ratio of diameter to side = 2:√π."},
+    {y:"SSC CGL 2021 Tier-I", q:"A shopkeeper marks his goods 40% above cost price and allows a discount of 25%. Find his profit percentage.", o:["5%","8%","10%","12%"], a:0, e:"Let CP=100, MP=140, SP=140×0.75=105. Profit = 5, so profit percentage = 5%."},
+    {y:"SSC CGL 2020 Tier-I", q:"Solve for x and y: 2x + 3y = 12 and 3x + 2y = 13.", o:["x=3, y=2","x=2, y=3","x=5, y=1","x=4, y=0"], a:0, e:"Solving the two linear equations simultaneously gives x=3 and y=2."}
+  ]},
+  REASONING: {name:"General Intelligence & Reasoning", emoji:"🧠", items:[
+    {y:"SSC CGL 2023 Tier-I", q:"Select the option related to the third term as the second is to the first:\nDoctor : Hospital :: Teacher : ?", o:["Student","Book","School","Class"], a:2, e:"A doctor works in a hospital; similarly, a teacher works in a school."},
+    {y:"SSC CGL 2022 Tier-I", q:"In a certain code, TEACHER is written as UFBDIFS. How is CHILD written in that code?", o:["DIJME","DJJME","DIJMF","DIJNE"], a:0, e:"Each letter shifts +1 in the alphabet: C→D, H→I, I→J, L→M, D→E → DIJME."},
+    {y:"SSC CGL 2021 Tier-I", q:"Pointing to a photograph, Ravi said, 'She is the daughter of my grandfather's only son.' How is the girl related to Ravi?", o:["Sister","Cousin","Daughter","Niece"], a:0, e:"Grandfather's only son is Ravi's father; his daughter is Ravi's sister."},
+    {y:"SSC CGL 2019 Tier-I", q:"Find the missing number in the series: 5, 11, 23, 47, ?", o:["93","94","95","96"], a:2, e:"Each term = previous × 2 + 1 → 47×2+1 = 95."},
+    {y:"SSC CGL 2020 Tier-I", q:"A man walks 10 km North, turns right and walks 6 km, then turns right again and walks 10 km. How far is he from his starting point?", o:["6 km","10 km","16 km","20 km"], a:0, e:"The two 10 km north/south legs cancel out, leaving him 6 km east of the start."},
+    {y:"SSC CGL 2018 Tier-I", q:"Statements: All pens are pencils. Some pencils are erasers.\nConclusions: I. Some erasers are pens. II. Some pencils are pens.\nWhich conclusion(s) follow?", o:["Only I","Only II","Both I and II","Neither I nor II"], a:1, e:"'All pens are pencils' converts to 'some pencils are pens' (Conclusion II). Conclusion I does not necessarily follow."},
+    {y:"SSC CGL 2022 Tier-I", q:"Select the odd one out.", o:["Triangle","Square","Circle","Cube"], a:3, e:"Cube is a 3-D solid; the rest are 2-D plane figures."},
+    {y:"SSC CGL 2021 Tier-I", q:"If NORTH is coded as 26456 and SOUTH is coded as 76446, how is TORN coded?", o:["4625","6425","4652","5624"], a:0, e:"Matching common letters across both codes: T=4, O=6, R=2, N=5 → TORN = 4625."},
+    {y:"SSC CGL 2019 Tier-I", q:"Arrange in a logical order: 1. Word  2. Letter  3. Sentence  4. Paragraph", o:["2,1,3,4","1,2,3,4","2,3,1,4","1,3,2,4"], a:0, e:"Logical order: Letter → Word → Sentence → Paragraph."},
+    {y:"SSC CGL 2020 Tier-I", q:"If 'A+B' means 'A is mother of B', 'A−B' means 'A is brother of B', 'A×B' means 'A is father of B' — which shows P is the grandfather of Q?", o:["P × R − Q","P − R × Q","P + R × Q","P × R + Q"], a:0, e:"P×R: P is father of R. R−Q: R is brother of Q, so R and Q share a father — P is Q's grandfather."}
+  ]},
+  ENGLISH: {name:"English Language", emoji:"📘", items:[
+    {y:"SSC CGL 2023 Tier-I", q:"Choose the correct synonym of 'AUDACIOUS'.", o:["Timid","Bold","Careful","Silent"], a:1, e:"'Audacious' means showing willingness to take bold risks; 'Bold' is the closest synonym."},
+    {y:"SSC CGL 2022 Tier-I", q:"Choose the correct antonym of 'BENEVOLENT'.", o:["Kind","Generous","Malevolent","Charitable"], a:2, e:"'Benevolent' means kind/generous; its opposite is 'Malevolent' (having harmful intent)."},
+    {y:"SSC CGL 2021 Tier-I", q:"Select the correctly spelt word.", o:["Occassion","Ocassion","Occasion","Occasoin"], a:2, e:"The correct spelling is 'Occasion'."},
+    {y:"SSC CGL 2020 Tier-I", q:"Select the one-word substitution for: 'A person who can speak two languages'.", o:["Linguist","Bilingual","Polyglot","Translator"], a:1, e:"Someone fluent in two languages is 'Bilingual'; 'Polyglot' means fluent in many languages."},
+    {y:"SSC CGL 2019 Tier-I", q:"Select the correct meaning of the idiom: 'To bite the bullet'.", o:["To act cowardly","To face a difficult situation bravely","To eat quickly","To avoid responsibility"], a:1, e:"'To bite the bullet' means to face an unpleasant situation with courage."},
+    {y:"SSC CGL 2022 Tier-I", q:"Identify the part with an error:\n'Neither of the two boys / have done / their homework / properly.'", o:["Neither of the two boys","have done","their homework","No error"], a:1, e:"'Neither' takes a singular verb, so it should be 'has done', not 'have done'."},
+    {y:"SSC CGL 2021 Tier-I", q:"Choose the correct passive voice: 'They are building a new bridge.'", o:["A new bridge is built by them.","A new bridge was being built by them.","A new bridge is being built by them.","A new bridge has been built by them."], a:2, e:"Present continuous active converts to present continuous passive: 'is being built'."},
+    {y:"SSC CGL 2018 Tier-I", q:"Fill in the blank: 'She has been living in Mumbai ___ 2015.'", o:["for","since","from","at"], a:1, e:"'Since' is used with a specific point in time (2015); 'for' is used with a duration."},
+    {y:"SSC CGL 2020 Tier-I", q:"Choose the correct indirect speech: He said, 'I am writing a letter.'", o:["He said that he is writing a letter.","He said that he was writing a letter.","He says that he was writing a letter.","He said that he had written a letter."], a:1, e:"Present continuous in direct speech becomes past continuous in indirect speech."},
+    {y:"SSC CGL 2023 Tier-I", q:"Select the correctly punctuated sentence.", o:["Wow what a beautiful sunset.","Wow, what a beautiful sunset!","Wow what a beautiful sunset!","Wow; what a beautiful sunset."], a:1, e:"An interjection 'Wow' takes a comma, and the exclamatory sentence ends with '!'."}
+  ]},
+  GA: {name:"General Awareness", emoji:"🌍", items:[
+    {y:"SSC CGL 2023 Tier-I", q:"The Mansabdari system, used to organise nobility and the military in Mughal administration, is most closely associated with which emperor?", o:["Babur","Akbar","Sher Shah Suri","Jahangir"], a:1, e:"The Mansabdari system was introduced and developed by Emperor Akbar."},
+    {y:"SSC CGL 2022 Tier-I", q:"The Battle of Buxar (1764), which strengthened British control over Bengal, was fought between the British East India Company and a combined force of which rulers?", o:["Nawab of Bengal, Nawab of Awadh and the Mughal Emperor","Marathas and the Nawab of Bengal","Tipu Sultan and the Nizam","Sikh Empire and the British"], a:0, e:"Fought between the Company and the combined forces of Mir Qasim (Bengal), Shuja-ud-Daula (Awadh) and Mughal Emperor Shah Alam II."},
+    {y:"SSC CGL 2023 Tier-I", q:"Under Article 4(2) read with Articles 2 and 3 of the Constitution, laws on formation of new states require what kind of majority in Parliament?", o:["Two-thirds majority","Special majority","State ratification","Simple majority"], a:3, e:"Such laws are passed by a simple majority of Parliament, as per Article 4(2)."},
+    {y:"SSC CGL 2022 Tier-I", q:"The emergency provisions of the Indian Constitution were largely borrowed from which historical legislation?", o:["Government of India Act, 1935","Government of India Act, 1919","Indian Councils Act, 1909","Charter Act, 1833"], a:0, e:"India's emergency provisions were significantly influenced by the Government of India Act, 1935."},
+    {y:"SSC CGL 2021 Tier-I", q:"Which body administers the Sangeet Natak Akademi Awards, India's highest awards for performing artists?", o:["Ministry of Culture through the Sangeet Natak Akademi","Ministry of Education directly","UNESCO India","National Film Development Corporation"], a:0, e:"The Sangeet Natak Akademi, an autonomous body under the Ministry of Culture, administers these awards; inaugurated in 1953."},
+    {y:"SSC CGL 2023 Tier-I", q:"Which committee recommended the inclusion of Fundamental Duties in the Constitution (added via the 42nd Amendment)?", o:["Sarkaria Commission","Swaran Singh Committee","Balwant Rai Mehta Committee","Kothari Commission"], a:1, e:"The Swaran Singh Committee (1976) recommended adding Fundamental Duties via the 42nd Amendment."},
+    {y:"SSC CGL 2022 Tier-I", q:"Shield volcanoes, known for their broad, gently sloping profile, are primarily composed of which rock type, as seen in Hawaiian volcanoes?", o:["Granite","Basalt","Sandstone","Limestone"], a:1, e:"Shield volcanoes, including Hawaiian volcanoes, are mostly composed of low-viscosity basaltic lava."},
+    {y:"SSC CGL 2020 Tier-I", q:"The Revolutionary Socialist Party, rooted in the Anushilan Samiti and Hindustan Socialist Republican Army traditions, was founded in which year?", o:["1940","1935","1947","1952"], a:0, e:"Founded on 19 March 1940 by Tridib Chaudhuri."},
+    {y:"SSC CGL 2021 Tier-I", q:"Lavani is a popular folk dance and music form traditionally associated with which Indian state?", o:["Maharashtra","Rajasthan","Gujarat","Punjab"], a:0, e:"Lavani is a traditional folk dance of Maharashtra, known for its powerful rhythm and storytelling."},
+    {y:"SSC CGL 2019 Tier-I", q:"The First Battle of Panipat (1526), which laid the foundation of the Mughal Empire, was fought between Babur and which ruler?", o:["Rana Sanga","Ibrahim Lodi","Sher Shah Suri","Hemu"], a:1, e:"Fought in 1526 between Babur and Ibrahim Lodi, the last Sultan of the Lodi dynasty."}
+  ]}
+};
+
+const state = { screen:'home', subjectKey:null, idx:0, selected:null, score:0, answered:false };
+const app = document.getElementById('app');
+const totalQuestions = Object.values(QUESTIONS).reduce((s,c)=>s+c.items.length,0);
+
+function render(){
+  if(state.screen==='home') renderHome();
+  else if(state.screen==='quiz') renderQuiz();
+  else if(state.screen==='result') renderResult();
+}
+
+function renderHome(){
+  const rows = Object.entries(QUESTIONS).map(([key,sub],i)=>`
+    <button class="ledger-row" onclick="startQuiz('${key}')">
+      <div class="sl">0${i+1}</div>
+      <div class="info">
+        <div class="name">${sub.emoji}  ${sub.name}</div>
+        <div class="meta">${sub.items.length} PREVIOUS YEAR QUESTIONS</div>
+      </div>
+      <div class="arrow">→</div>
+    </button>
+  `).join('');
+
+  app.innerHTML = `
+    <div class="letterhead">
+      <div class="eyebrow">STAFF SELECTION COMMISSION · TIER-I PRACTICE</div>
+      <h1>SSC CGL<br>PYQ Study Room</h1>
+      <div class="sub">Combined Graduate Level Examination</div>
+      <div class="stat-strip">
+        <span>${totalQuestions} QUESTIONS</span>
+        <span>4 SECTIONS</span>
+        <span>WITH SOLUTIONS</span>
+      </div>
+    </div>
+    <div class="disclaimer">Unofficial practice resource · not affiliated with SSC or the Government of India</div>
+    <div class="section-title">Select a section</div>
+    <div class="ledger">${rows}</div>
+    <div class="footer-note">Tip: attempt each section like a real exam — read, answer, then check the explanation before moving on.</div>
+  `;
+}
+
+function startQuiz(key){
+  state.screen='quiz'; state.subjectKey=key; state.idx=0; state.selected=null; state.score=0; state.answered=false;
+  render();
+}
+
+function renderQuiz(){
+  const sub = QUESTIONS[state.subjectKey];
+  const q = sub.items[state.idx];
+  const progress = ((state.idx+1)/sub.items.length)*100;
+
+  const options = q.o.map((opt,i)=>{
+    let cls='option';
+    if(state.answered){
+      if(i===q.a) cls+=' correct';
+      else if(i===state.selected) cls+=' wrong';
+    } else if(state.selected===i){
+      cls+=' selected';
+    }
+    const mark = state.answered ? (i===q.a ? '<span class="mark">✓</span>' : (i===state.selected ? '<span class="mark">✕</span>' : '')) : '';
+    return `
+      <button class="${cls}" onclick="selectOption(${i})" ${state.answered?'disabled':''}>
+        <div class="bubble"><div class="fill"></div><span>${String.fromCharCode(65+i)}</span></div>
+        <div class="opt-text">${opt}</div>
+        ${mark}
+      </button>`;
+  }).join('');
+
+  app.innerHTML = `
+    <div class="quiz-topbar">
+      <button class="back" onclick="goHome()">←</button>
+      <div class="qtitle">${sub.emoji} ${sub.name.toUpperCase()}</div>
+      <div style="width:20px"></div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
+    <div class="meta-row">
+      <span>QUESTION ${state.idx+1} OF ${sub.items.length}</span>
+      <span class="year-tag">${q.y}</span>
+    </div>
+    <div class="qbox">
+      <div class="qnum-badge">Q.${state.idx+1}</div>
+      <div class="qtext">${q.q}</div>
+    </div>
+    <div class="options">${options}</div>
+    <div class="explain ${state.answered?'show':''}">
+      <div class="label">Answer Key &amp; Explanation</div>
+      <p>${q.e}</p>
+    </div>
+    <div class="cta-bar">
+      <button class="btn-primary" id="nextBtn" ${state.answered?'':'disabled'} onclick="nextQuestion()">
+        ${state.idx===sub.items.length-1 ? 'Finish & View Result' : 'Next Question'}
+      </button>
+    </div>
+  `;
+}
+
+function selectOption(i){
+  if(state.answered) return;
+  state.selected=i; state.answered=true;
+  const sub = QUESTIONS[state.subjectKey];
+  if(i===sub.items[state.idx].a) state.score++;
+  render();
+}
+
+function nextQuestion(){
+  const sub = QUESTIONS[state.subjectKey];
+  if(state.idx===sub.items.length-1){
+    state.screen='result'; render(); return;
+  }
+  state.idx++; state.selected=null; state.answered=false;
+  render();
+}
+
+function goHome(){ state.screen='home'; render(); }
+
+function retryQuiz(){ startQuiz(state.subjectKey); }
+
+function renderResult(){
+  const sub = QUESTIONS[state.subjectKey];
+  const total = sub.items.length;
+  const pct = Math.round((state.score/total)*100);
+  let remarkClass='fail', remarkText='NEEDS MORE PRACTICE';
+  if(pct>=80){ remarkClass='pass'; remarkText='EXAM READY'; }
+  else if(pct>=50){ remarkClass='avg'; remarkText='GOOD, KEEP GOING'; }
+
+  app.innerHTML = `
+    <div class="quiz-topbar">
+      <button class="back" onclick="goHome()">←</button>
+      <div class="qtitle">RESULT</div>
+      <div style="width:20px"></div>
+    </div>
+    <div class="result-wrap">
+      <div class="stamp">
+        <div class="pct">${pct}%</div>
+        <div class="lbl">SCORE</div>
+      </div>
+      <h2>${sub.name}</h2>
+      <div class="score-line">You answered ${state.score} out of ${total} correctly</div>
+      <div class="remark ${remarkClass}">${remarkText}</div>
+      <div class="result-actions">
+        <button class="btn-primary" onclick="retryQuiz()">Retry This Section</button>
+        <button class="btn-outline" onclick="goHome()">Back to Sections</button>
+      </div>
+    </div>
+  `;
+}
+
+render();
+</script>
+</body>
+</html>
